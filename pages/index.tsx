@@ -77,10 +77,12 @@ const Home: NextPage = () => {
   }
 
   function substractAll(): void {
-    const processed1 = input1 && isInputValid(input1) ? input1 : 0;
-    const processed2 = input2 && isInputValid(input2) ? input2 : 0;
-    const processed3 = input3 && isInputValid(input3) ? input3 : 0;
-    setResult(processed1 - processed2 - processed3);
+    let res: number | null = 0;
+    if (input1 && input2 && input3) res = input1 - input2 - input3;
+    else if (!input1 && input2 && input3) res = input2 - input3;
+    else if (input1 && !input2 && input3) res = input1 - input3;
+    else if (input1 && input2 && !input3) res = input1 - input2;
+    setResult(res);
   }
 
   function multiplyAll(): void {
