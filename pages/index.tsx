@@ -20,23 +20,26 @@ const Operator = (props: {
 const InputNumber = (props: {
   value: number | null;
   onChange: (e: any) => void;
+  placeholder?: string;
 }) => {
   return (
     <input
+      placeholder={props.placeholder}
       type="number"
-      className="mr-2 border rounded-xl w-full border-blue-200 px-3"
+      className="mr-2 border placeholder:text-gray-300 font-semibold text-blue-400 rounded-xl w-full border-blue-200 px-3"
       onChange={props.onChange}
     />
   );
 };
 
-const Checkbox = (props: { valid: boolean }) => {
+const Checkbox = (props: { valid: boolean; datatestid?: string }) => {
   return (
     <input
       type="checkbox"
       className="w-8"
       readOnly={true}
       checked={props.valid}
+      data-testid={props.datatestid}
     />
   );
 };
@@ -122,43 +125,49 @@ const Home: NextPage = () => {
         <meta name="description" content="Custom calculator app" />
       </Head>
       <div className="bg-white rounded-xl w-[300px] min-h-[200px] p-4 shadow flex flex-col gap-2">
+        <h1 className="text-center font-semibold text-blue-400 text-2xl">
+          Custom Calculator
+        </h1>
         {/* Inputs */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 mt-2">
           <div className="h-12 flex">
             <InputNumber
               value={input1}
+              placeholder="Input 1"
               onChange={(e) => setInput1(parseInt(e.target.value))}
             />
-            <Checkbox valid={isInputValid(input1)} />
+            <Checkbox valid={isInputValid(input1)} datatestid="Checkbox 1" />
           </div>
           <div className="h-12 flex">
             <InputNumber
               value={input2}
+              placeholder="Input 2"
               onChange={(e) => setInput2(parseInt(e.target.value))}
             />
-            <Checkbox valid={isInputValid(input2)} />
+            <Checkbox valid={isInputValid(input2)} datatestid="Checkbox 2" />
           </div>
           <div className="h-12 flex">
             <InputNumber
               value={input3}
+              placeholder="Input 3"
               onChange={(e) => setInput3(parseInt(e.target.value))}
             />
-            <Checkbox valid={isInputValid(input3)} />
+            <Checkbox valid={isInputValid(input3)} datatestid="Checkbox 3" />
           </div>
         </div>
         {/* Operators */}
         <div className="mt-4 flex gap-2 justify-center">
           <Operator onClick={() => calculateResult("add")}>
-            <FaPlus />
+            <FaPlus data-testid="add" />
           </Operator>
           <Operator onClick={() => calculateResult("substract")}>
-            <FaMinus />
+            <FaMinus data-testid="substract" />
           </Operator>
           <Operator onClick={() => calculateResult("multiply")}>
-            <FaTimes />
+            <FaTimes data-testid="multiply" />
           </Operator>
           <Operator onClick={() => calculateResult("divide")}>
-            <FaDivide />
+            <FaDivide data-testid="divide" />
           </Operator>
         </div>
         {/* Error Message */}
@@ -171,7 +180,7 @@ const Home: NextPage = () => {
         {getTotalFilledInput() > 0 && !isFormInvalid() && (
           <div>
             <hr className="border-2 mt-4 border-blue-200" />
-            <div className="mt-4 flex justify-between">
+            <div className="mt-4 flex justify-between items-end text-blue-400">
               <div>Result:</div>
               <div className="text-2xl">{result}</div>
             </div>
